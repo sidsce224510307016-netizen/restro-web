@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>RESTRO - Cinematic Experience</title>
+<title>RESTRO - Transform restaurant waiting chaos into revenue flow</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -20,162 +20,72 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
 
-/* ================= HERO (Your Original) ================= */
+/* ================= HERO SECTION ================= */
 .hero { position: relative; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; z-index: 10; }
 .hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.8; z-index: 1; }
 .hero-content { position: relative; z-index: 3; text-align: center; color: #fff; }
-.logo-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 8px; text-transform: uppercase; margin-bottom: 10px; }
+.logo-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 8px; text-transform: uppercase; }
 
-/* ================= MAIN SHOWCASE SECTION ================= */
-.showcase-section {
-  padding: 120px 5%;
-  background: var(--bg-color);
-  min-height: 100vh;
-  z-index: 5; /* Lower than hero so it pins above this */
-}
+/* ================= PROJECT CARDS ================= */
+.showcase-section { padding: 120px 5%; background: var(--bg-color); min-height: 100vh; position: relative; z-index: 5; }
+.cards-wrapper { display: flex; justify-content: center; gap: 30px; max-width: 1400px; margin: 0 auto; }
 
-.cards-wrapper {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
+.project-card { flex: 1; display: flex; flex-direction: column; cursor: pointer; }
+.project-header { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 10px; text-transform: uppercase; }
 
-.project-card {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  cursor: pointer;
-}
-
-.project-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  margin-bottom: 15px;
-  font-weight: 500;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-  padding-bottom: 10px;
-  text-transform: uppercase;
-}
-
-.img-container {
-  width: 100%;
-  height: 450px;
-  overflow: hidden;
-  position: relative;
-  background: #000;
-}
-
-.img-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.project-card:hover .img-container img { transform: scale(1.05); }
+.img-container { width: 100%; height: 450px; overflow: hidden; background: #000; }
+.img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+.project-card:hover .img-container img { transform: scale(1.1); }
 
 .project-info { margin-top: 20px; }
-.project-name { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 15px; }
-.project-excerpt { font-size: 0.9rem; line-height: 1.6; color: #444; margin-bottom: 25px; height: 80px; overflow: hidden; }
+.project-name { font-family: 'Playfair Display', serif; font-size: 2.2rem; text-transform: uppercase; margin-bottom: 10px; }
+.project-excerpt { font-size: 0.85rem; line-height: 1.6; color: #333; margin-bottom: 20px; height: 60px; overflow: hidden; }
 
-.view-btn {
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #000;
-  background: transparent;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 2px;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
+.view-btn { width: 100%; padding: 12px; border: 1.5px solid #000; background: transparent; text-transform: uppercase; font-weight: 600; letter-spacing: 2px; border-radius: 50px; cursor: pointer; transition: 0.4s; }
 .project-card:hover .view-btn { background: #000; color: #fff; }
 
-/* ================= FULLSCREEN PROJECT VIEW (Matching Video/Image) ================= */
+/* ================= FULLSCREEN CLONE VIEW ================= */
 .fs-project-view {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100vh;
-  z-index: 5000;
+  z-index: 9999;
   display: none;
   background: var(--black);
   color: #fff;
-  overflow-y: auto; /* Enable scrolling if description is long */
+  clip-path: inset(50% 0% 50% 0%); /* Starts as a middle horizontal slit */
 }
 
-/* 1. Top Section with Image and Typography */
-.fs-top-visual {
-  position: relative;
-  width: 100%;
-  height: 70vh; /* Replicate the look in image_29.png */
-  overflow: hidden;
-  background: #000;
-}
-
-.fs-bg {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  object-fit: cover;
-  opacity: 0.6; /* Dim image slightly for contrast */
-}
+.fs-top-visual { position: relative; width: 100%; height: 65vh; overflow: hidden; }
+.fs-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
 
 .fs-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   font-family: 'Playfair Display', serif;
-  font-size: 15vw; /* Massive typography */
+  font-size: 14vw;
   text-transform: uppercase;
-  line-height: 1;
   white-space: nowrap;
-  z-index: 10;
   color: #fff;
+  pointer-events: none;
 }
 
-/* 2. Bottom Content Grid */
 .fs-content-bottom {
-  position: relative;
-  padding: 80px 10%;
+  padding: 60px 10%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 column grid for details */
-  gap: 40px;
-  z-index: 5;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  gap: 50px;
   background: var(--black);
   text-transform: uppercase;
 }
 
-.fs-detail-block h4 {
-  color: rgba(255,255,255,0.4);
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 20px;
-}
+.fs-detail-block h4 { color: rgba(255,255,255,0.4); font-size: 0.75rem; margin-bottom: 15px; letter-spacing: 1px; }
+.fs-detail-block p { font-size: 0.95rem; line-height: 1.5; }
 
-.fs-detail-block p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-/* Back Arrow */
 .fs-back-arrow {
-  position: absolute;
-  bottom: 80px;
-  left: 10%;
-  cursor: pointer;
-  font-size: 2.5rem;
-  transition: transform 0.3s ease;
-  z-index: 100;
+  position: fixed; bottom: 50px; left: 10%;
+  cursor: pointer; font-size: 2.5rem; color: #fff;
+  transition: 0.3s; z-index: 10000;
 }
-.fs-back-arrow:hover {
-  transform: translateX(-10px);
-  color: var(--crimson);
-}
+.fs-back-arrow:hover { transform: translateX(-10px); color: var(--bg-color); }
 </style>
 </head>
 
@@ -185,141 +95,113 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
     <video autoplay muted loop playsinline><source src="Cooking.mp4" type="video/mp4"></video>
     <div class="hero-content">
       <h1 class="logo-title">RESTRO</h1>
-      <p>Transform restaurant waiting chaos into revenue flow.</p>
     </div>
   </section>
 
   <section class="showcase-section">
     <div class="cards-wrapper">
-      
       <div class="project-card" data-name="MOULDER" data-img="https://images.unsplash.com/photo-1550966841-3ee7ad65d096?auto=format&fit=crop&w=1200&q=80">
         <div class="project-header"><span>2026</span><span>Why We Exist</span></div>
         <div class="img-container"><img src="https://images.unsplash.com/photo-1550966841-3ee7ad65d096?auto=format&fit=crop&w=800&q=80"></div>
         <div class="project-info">
           <h2 class="project-name">Why We Exist</h2>
-          <p class="project-excerpt">•	Walk-in customers leave due to no table availability
-•	Restaurants lose revenue from unstructured queues
-•	Kitchens get overwhelmed due to chaotic order bursts
-•	Staff coordination breakdown
-.</p>
+          <p class="project-excerpt">Walk-in customers leave due to no table availability. Restaurants lose revenue from unstructured queues.</p>
           <button class="view-btn">view</button>
         </div>
       </div>
 
       <div class="project-card" data-name="BENNETT" data-img="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80">
-        <div class="project-header"><span>2026</span><span>Why Choose Us</span></div>
+        <div class="project-header"><span>2026</span><span>Aria Bennett</span></div>
         <div class="img-container"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80"></div>
         <div class="project-info">
-          <h2 class="project-name">Why Choose Us</h2>
-          <p class="project-excerpt">Traditional	 Reservation Apps	  Restro
-Manual chaos	 Table booking only	  Walk-in optimization
-No kitchen coordination	  No fatigue control	  Smart scheduling
-Lost customers	Limited overflow handling	  Revenue retention
-</p>
+          <h2 class="project-name">Aria Bennett</h2>
+          <p class="project-excerpt">They come with their laws and codes to bind me fast; but I evade them ever.</p>
           <button class="view-btn">view</button>
         </div>
       </div>
-
-      <div class="project-card" data-name="HUGHES" data-img="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=1200&q=80">
-        <div class="project-header"><span>2026</span><span>Contact Us</span></div>
-        <div class="img-container"><img src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=800&q=80"></div>
-        <div class="project-info">
-          <h2 class="project-name">Contact Us</h2>
-          <p class="project-excerpt">Contact Us and book your free demo now...!!!!</p>
-          <button class="view-btn">view</button>
-        </div>
-      </div>
-
     </div>
   </section>
 
   <div class="fs-project-view" id="fsProjectView">
-    
     <div class="fs-top-visual">
         <img src="" class="fs-bg" id="fsBg">
         <h2 class="fs-title" id="fsTitle">NAME</h2>
     </div>
-
     <div class="fs-content-bottom">
-        
         <div class="fs-detail-block">
-            <h4 id="fsDetailNameHeader">ERIK MOULDER</h4>
+            <h4 id="fsSubName">NAME</h4>
             <p>2026</p>
         </div>
-        
         <div class="fs-detail-block">
             <h4>Location</h4>
             <p>New York City</p>
         </div>
-
         <div class="fs-detail-block">
             <h4>Material</h4>
-            <p id="fsExcerpt">I am only waiting for love to give myself up at last into his hands. That is why it is so late and why I have been guilty of such omissions.</p>
+            <p id="fsLongDesc">I am only waiting for love to give myself up at last into his hands.</p>
         </div>
-        
-        <div class="fs-back-arrow" onclick="closeFS()">←</div>
     </div>
+    <div class="fs-back-arrow" id="closeBtn">←</div>
   </div>
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
 
-  // 1. Hero Zoom Logic (Unchanged)
-  const heroTl = gsap.timeline({
-    scrollTrigger: { trigger: ".hero", start: "top top", end: "+=120%", scrub: 1, pin: true }
-  });
-  heroTl.to(".hero video", { scale: 2.5, ease: "none" }, 0);
-  heroTl.to(".hero-content", { y: -100, opacity: 0, ease: "none" }, 0);
+  // 1. Hero Zoom
+  gsap.timeline({
+    scrollTrigger: { trigger: ".hero", start: "top top", end: "+=100%", scrub: 1, pin: true }
+  }).to(".hero video", { scale: 2.5 }).to(".hero-content", { opacity: 0 }, 0);
 
-  // 2. Refined Expansion Animation (Matching Video/Image)
-  const cards = document.querySelectorAll('.project-card');
-  const overlay = document.getElementById('fsProjectView');
-  const fsTitle = document.getElementById('fsTitle');
-  const fsBg = document.getElementById('fsBg');
-  const fsExcerpt = document.getElementById('fsExcerpt');
-  const fsNameHeader = document.getElementById('fsDetailNameHeader');
+  // 2. Clone Transition Logic
+  const view = document.getElementById('fsProjectView');
+  const title = document.getElementById('fsTitle');
+  const bg = document.getElementById('fsBg');
 
-  cards.forEach(card => {
+  document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('click', () => {
-      const name = card.getAttribute('data-name');
-      const img = card.getAttribute('data-img');
-      const excerpt = card.querySelector('.project-excerpt').innerText;
-      
-      // Populate the overlay with card data
-      fsTitle.innerText = name;
-      fsBg.src = img;
-      fsExcerpt.innerText = excerpt; // Add full excerpt to bottom description
-      fsNameHeader.innerText = "ERIK MOULDER"; // For simplicity in this demo, hardcoding the subheader name
+      const data = {
+        name: card.getAttribute('data-name'),
+        img: card.getAttribute('data-img'),
+        desc: card.querySelector('.project-excerpt').innerText
+      };
 
-      overlay.style.display = 'block';
-      
+      // Set Content
+      title.innerText = data.name;
+      bg.src = data.img;
+      document.getElementById('fsSubName').innerText = card.querySelector('.project-name').innerText;
+      document.getElementById('fsLongDesc').innerText = data.desc;
+
+      view.style.display = 'block';
+
+      // Animation Timeline
       const tl = gsap.timeline();
       
-      // The Transition Timeline
-      tl.fromTo(overlay, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power4.inOut" });
+      // Expand from center slit
+      tl.to(view, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.2, ease: "power4.inOut" });
       
-      tl.fromTo(fsTitle, 
-        { letterSpacing: "-0.5em", opacity: 0, scale: 1.5 }, 
-        { letterSpacing: "0.1em", opacity: 1, scale: 1, duration: 1.2, ease: "expo.out" }, 
-        "-=0.4"
+      // Massive text "Breath" effect
+      tl.fromTo(title, 
+        { letterSpacing: "-0.4em", opacity: 0, scale: 1.4 }, 
+        { letterSpacing: "0.05em", opacity: 1, scale: 1, duration: 1.5, ease: "expo.out" }, 
+        "-=0.6"
       );
       
-      // Animate background image coming into focus
-      tl.fromTo(fsBg, { scale: 1.4 }, { scale: 1, duration: 2, ease: "power2.out" }, 0);
+      // Zoom background slowly
+      tl.fromTo(bg, { scale: 1.3 }, { scale: 1, duration: 2.5, ease: "power2.out" }, 0);
       
-      // Subtle reveal for the bottom description blocks
-      tl.fromTo(".fs-detail-block", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" }, "-=0.8");
+      // Stagger detail text
+      tl.from(".fs-detail-block", { y: 30, opacity: 0, stagger: 0.1, duration: 0.8 }, "-=1");
     });
   });
 
-  function closeFS() {
-    gsap.to(overlay, { 
-      clipPath: "inset(0% 0% 100% 0%)", 
-      duration: 0.6, 
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    gsap.to(view, { 
+      clipPath: "inset(50% 0% 50% 0%)", 
+      duration: 0.8, 
       ease: "power4.in",
-      onComplete: () => overlay.style.display = 'none' 
+      onComplete: () => view.style.display = 'none' 
     });
-  }
+  });
 </script>
 
 </body>
