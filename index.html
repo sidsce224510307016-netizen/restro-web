@@ -5,31 +5,33 @@
 <title>RESTRO - Cinematic Experience</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 :root {
-  --bg-color: #D6D2C4; /* The light greyish-tan from the video */
+  --bg-color: #D6D2C4;
   --text-dark: #1a1a1a;
-  --velvet: #3F0D12;
+  --black: #000;
+  --crimson: #A71D31;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
 
 /* ================= HERO (Your Original) ================= */
-.hero { position: relative; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; }
-.hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.8; }
+.hero { position: relative; height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; z-index: 10; }
+.hero video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; transform: translate(-50%, -50%); object-fit: cover; opacity: 0.8; z-index: 1; }
 .hero-content { position: relative; z-index: 3; text-align: center; color: #fff; }
-.logo-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 8px; text-transform: uppercase; }
+.logo-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 8px; text-transform: uppercase; margin-bottom: 10px; }
 
-/* ================= VIDEO STYLE SECTION ================= */
+/* ================= MAIN SHOWCASE SECTION ================= */
 .showcase-section {
   padding: 120px 5%;
   background: var(--bg-color);
   min-height: 100vh;
+  z-index: 5; /* Lower than hero so it pins above this */
 }
 
 .cards-wrapper {
@@ -56,6 +58,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
   font-weight: 500;
   border-bottom: 1px solid rgba(0,0,0,0.1);
   padding-bottom: 10px;
+  text-transform: uppercase;
 }
 
 .img-container {
@@ -88,59 +91,91 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
   font-weight: 600;
   letter-spacing: 2px;
   border-radius: 50px;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .project-card:hover .view-btn { background: #000; color: #fff; }
 
-/* ================= FULLSCREEN OVERLAY EFFECT ================= */
-.fs-overlay {
+/* ================= FULLSCREEN PROJECT VIEW (Matching Video/Image) ================= */
+.fs-project-view {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100vh;
   z-index: 5000;
   display: none;
-  background: #000;
+  background: var(--black);
   color: #fff;
+  overflow-y: auto; /* Enable scrolling if description is long */
+}
+
+/* 1. Top Section with Image and Typography */
+.fs-top-visual {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* Replicate the look in image_29.png */
+  overflow: hidden;
+  background: #000;
 }
 
 .fs-bg {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.6;
-}
-
-.fs-content {
-  position: relative;
-  z-index: 10;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  opacity: 0.6; /* Dim image slightly for contrast */
 }
 
 .fs-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-family: 'Playfair Display', serif;
-  font-size: 12vw;
+  font-size: 15vw; /* Massive typography */
   text-transform: uppercase;
   line-height: 1;
   white-space: nowrap;
+  z-index: 10;
+  color: #fff;
 }
 
-.fs-close {
-  position: absolute;
-  bottom: 50px;
-  cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 2px;
+/* 2. Bottom Content Grid */
+.fs-content-bottom {
+  position: relative;
+  padding: 80px 10%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 column grid for details */
+  gap: 40px;
+  z-index: 5;
+  background: var(--black);
   text-transform: uppercase;
-  border-bottom: 1px solid #fff;
 }
 
-/* Original Section 2 styling */
-.section-2 { padding: 100px 10%; background: #fff; }
-.problem-item { margin-bottom: 20px; opacity: 0; transform: translateX(-30px); font-size: 1.5rem; }
+.fs-detail-block h4 {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.fs-detail-block p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Back Arrow */
+.fs-back-arrow {
+  position: absolute;
+  bottom: 80px;
+  left: 10%;
+  cursor: pointer;
+  font-size: 2.5rem;
+  transition: transform 0.3s ease;
+  z-index: 100;
+}
+.fs-back-arrow:hover {
+  transform: translateX(-10px);
+  color: var(--crimson);
+}
 </style>
 </head>
 
@@ -150,7 +185,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
     <video autoplay muted loop playsinline><source src="Cooking.mp4" type="video/mp4"></video>
     <div class="hero-content">
       <h1 class="logo-title">RESTRO</h1>
-      <p>Cinematic Dining Management</p>
+      <p>Transform restaurant waiting chaos into revenue flow.</p>
     </div>
   </section>
 
@@ -162,7 +197,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
         <div class="img-container"><img src="https://images.unsplash.com/photo-1550966841-3ee7ad65d096?auto=format&fit=crop&w=800&q=80"></div>
         <div class="project-info">
           <h2 class="project-name">Erik Moulder</h2>
-          <p class="project-excerpt">I am only waiting for love to give myself up at last into his hands. That is why it is so late and why I have been guilty of such omissions.</p>
+          <p class="project-excerpt">We are only waiting for love to give myself up at last into his hands... and why I have been guilty of such omissions.</p>
           <button class="view-btn">view</button>
         </div>
       </div>
@@ -172,7 +207,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
         <div class="img-container"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=800&q=80"></div>
         <div class="project-info">
           <h2 class="project-name">Aria Bennett</h2>
-          <p class="project-excerpt">They come with their laws and their codes to bind me fast; but I evade them ever, for I am only waiting for love to give myself up at last into his hands.</p>
+          <p class="project-excerpt">They come with their laws and their codes to bind me fast; but I evade them ever, for I am only waiting for love...</p>
           <button class="view-btn">view</button>
         </div>
       </div>
@@ -190,21 +225,33 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
     </div>
   </section>
 
-  <div class="fs-overlay" id="fsOverlay">
-    <img src="" class="fs-bg" id="fsBg">
-    <div class="fs-content">
-      <h2 class="fs-title" id="fsTitle">NAME</h2>
-      <div class="fs-close" onclick="closeFS()">Back to Projects</div>
+  <div class="fs-project-view" id="fsProjectView">
+    
+    <div class="fs-top-visual">
+        <img src="" class="fs-bg" id="fsBg">
+        <h2 class="fs-title" id="fsTitle">NAME</h2>
+    </div>
+
+    <div class="fs-content-bottom">
+        
+        <div class="fs-detail-block">
+            <h4 id="fsDetailNameHeader">ERIK MOULDER</h4>
+            <p>2026</p>
+        </div>
+        
+        <div class="fs-detail-block">
+            <h4>Location</h4>
+            <p>New York City</p>
+        </div>
+
+        <div class="fs-detail-block">
+            <h4>Material</h4>
+            <p id="fsExcerpt">I am only waiting for love to give myself up at last into his hands. That is why it is so late and why I have been guilty of such omissions.</p>
+        </div>
+        
+        <div class="fs-back-arrow" onclick="closeFS()">←</div>
     </div>
   </div>
-
-  <section class="section-2">
-    <h2>Why We Exist</h2>
-    <div class="problem-list">
-      <div class="problem-item">• Walk-in customers leave due to long wait times.</div>
-      <div class="problem-item">• Restaurants lose 15% revenue from manual queuing.</div>
-    </div>
-  </section>
 
 <script>
   gsap.registerPlugin(ScrollTrigger);
@@ -216,32 +263,44 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
   heroTl.to(".hero video", { scale: 2.5, ease: "none" }, 0);
   heroTl.to(".hero-content", { y: -100, opacity: 0, ease: "none" }, 0);
 
-  // 2. expansion Animation (Matching Video)
+  // 2. Refined Expansion Animation (Matching Video/Image)
   const cards = document.querySelectorAll('.project-card');
-  const overlay = document.getElementById('fsOverlay');
+  const overlay = document.getElementById('fsProjectView');
   const fsTitle = document.getElementById('fsTitle');
   const fsBg = document.getElementById('fsBg');
+  const fsExcerpt = document.getElementById('fsExcerpt');
+  const fsNameHeader = document.getElementById('fsDetailNameHeader');
 
   cards.forEach(card => {
     card.addEventListener('click', () => {
       const name = card.getAttribute('data-name');
       const img = card.getAttribute('data-img');
+      const excerpt = card.querySelector('.project-excerpt').innerText;
       
+      // Populate the overlay with card data
       fsTitle.innerText = name;
       fsBg.src = img;
-      
+      fsExcerpt.innerText = excerpt; // Add full excerpt to bottom description
+      fsNameHeader.innerText = "ERIK MOULDER"; // For simplicity in this demo, hardcoding the subheader name
+
       overlay.style.display = 'block';
       
       const tl = gsap.timeline();
       
-      // The "Video Style" Transition
+      // The Transition Timeline
       tl.fromTo(overlay, { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.8, ease: "power4.inOut" });
+      
       tl.fromTo(fsTitle, 
         { letterSpacing: "-0.5em", opacity: 0, scale: 1.5 }, 
         { letterSpacing: "0.1em", opacity: 1, scale: 1, duration: 1.2, ease: "expo.out" }, 
         "-=0.4"
       );
+      
+      // Animate background image coming into focus
       tl.fromTo(fsBg, { scale: 1.4 }, { scale: 1, duration: 2, ease: "power2.out" }, 0);
+      
+      // Subtle reveal for the bottom description blocks
+      tl.fromTo(".fs-detail-block", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" }, "-=0.8");
     });
   });
 
@@ -253,12 +312,6 @@ body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var
       onComplete: () => overlay.style.display = 'none' 
     });
   }
-
-  // 3. Section 2 Reveal
-  gsap.to(".problem-item", {
-    scrollTrigger: { trigger: ".section-2", start: "top 80%" },
-    opacity: 1, x: 0, duration: 0.8, stagger: 0.2
-  });
 </script>
 
 </body>
